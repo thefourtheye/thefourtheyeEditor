@@ -1,0 +1,41 @@
+<project name="thefourtheyeEditor" basedir="." default="main">
+	<property name="src.dir"     value="src"                     />
+	<property name="build.dir"   value="build"                   />
+	<property name="classes.dir" value="${build.dir}/classes"    />
+	<property name="main-class"  value="thefourtheyeEditor.Main" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete file="${ant.project.name}.jar" />
+	</target>
+
+	<path id="master-classpath">
+	    <fileset dir="/home/thefourtheye/workspace/thefourtheyeEditor/lib/">
+	    	<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="compile">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<delete file="${ant.project.name}.jar" />
+		<jar destfile="${ant.project.name}.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<java jar="${ant.project.name}.jar" fork="true" />
+	</target>
+
+	<target name="clean-build" depends="clean,jar"/>
+
+	<target name="main" depends="clean,run"/>
+</project>
