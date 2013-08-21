@@ -1,23 +1,37 @@
 package thefourtheyeEditor.supportedLanguages;
 
+import java.util.ArrayList;
+
 import com.topcoder.client.contestant.ProblemComponentModel;
 import com.topcoder.shared.language.Language;
+import com.topcoder.shared.problem.TestCase;
 
 public class VB extends Common
 {
     public VB(Language lang, ProblemComponentModel component)
     {
-        currentLanguage = lang;
-        problemComponent = component;
+       super(lang, component);
     }
 
     @Override
-    public String getSolutionBody()
+    public ArrayList<String> getTestSuite()
     {
-        String solutionBody = "Public Class " + getClassName() + "\n" + indentation + getMethodSignature() 
-                + "\n" + indentation + indentation + "Dim answer As " + getReturnTypeDescriptor() + "\n" + 
-                indentation + indentation + "Return answer\n" + indentation + "End Function\nEnd Class";
-        return solutionBody;
+        ArrayList<String> testSuite = new ArrayList<String>();
+        TestCase[] testCase = problemComponent.getTestCases();
+        for (int i = 0; i < testCase.length; i++)
+        {
+            for (int j = 0; j < testCase[i].getInput().length; j++)
+            {
+//                testSuite.add(getInputParameterDefinitionLine(j, testCase[i].getInput()[j]));
+            }
+        }
+        return testSuite;
     }
 
+   @Override
+   public ArrayList<String> getSolutionTemplate()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

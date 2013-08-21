@@ -1,24 +1,37 @@
 package thefourtheyeEditor.supportedLanguages;
 
+import java.util.ArrayList;
+
 import com.topcoder.client.contestant.ProblemComponentModel;
 import com.topcoder.shared.language.Language;
+import com.topcoder.shared.problem.TestCase;
 
 public class CSharp extends Common
 {
     public CSharp(Language lang, ProblemComponentModel component)
     {
-        currentLanguage = lang;
-        problemComponent = component;
-    }
-    
-    @Override
-    public String getSolutionBody()
-    {
-        String solutionBody = "public class " + getClassName() + "\n{\n" + indentation + "public " + 
-                getMethodSignature() + "\n" + indentation + "{\n" + indentation + indentation + 
-                getReturnTypeDescriptor() + " answer;\n" + indentation + indentation + 
-                "return answer;\n" + indentation + "}\n}";
-        return solutionBody;
+       super(lang, component);
     }
 
+    @Override
+    public ArrayList<String> getTestSuite()
+    {
+        ArrayList<String> testSuite = new ArrayList<String>();
+        TestCase[] testCase = problemComponent.getTestCases();
+        for (int i = 0; i < testCase.length; i++)
+        {
+            for (int j = 0; j < testCase[i].getInput().length; j++)
+            {
+//                testSuite.add(getInputParameterDefinitionLine(j, testCase[i].getInput()[j]));
+            }
+        }
+        return testSuite;
+    }
+
+   @Override
+   public ArrayList<String> getSolutionTemplate()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

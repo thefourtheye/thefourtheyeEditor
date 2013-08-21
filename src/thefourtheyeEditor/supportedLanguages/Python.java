@@ -1,5 +1,7 @@
 package thefourtheyeEditor.supportedLanguages;
 
+import java.util.ArrayList;
+
 import com.topcoder.client.contestant.ProblemComponentModel;
 import com.topcoder.shared.language.Language;
 
@@ -7,8 +9,7 @@ public class Python extends Common
 {
     public Python(Language lang, ProblemComponentModel component)
     {
-        currentLanguage = lang;
-        problemComponent = component;
+       super(lang, component);
     }
     
     private String getCompleteReturnType(int dimensions)
@@ -24,20 +25,15 @@ public class Python extends Common
     }
     
     @Override
-    public String getSolutionBody()
+    public ArrayList<String> getTestSuite()
     {
-        String returnData = "0";
-        int dimensions = getReturnType().getDimension();
-        if (dimensions > 0)
-        {
-            returnData = "(" + getCompleteReturnType(dimensions - 1) + ")";
-        }
-        else if (getReturnTypeDescriptor() == "string")
-        {
-            returnData = "\"\"";
-        }
-        String solutionBody = "class " + getClassName() + ":\n" + indentation + getMethodSignature() + "\n" + indentation +
-            indentation + "answer = " + returnData + "\n" + indentation + indentation + "return answer"; 
-        return solutionBody;
+        return testSuite;
     }
+
+   @Override
+   public ArrayList<String> getSolutionTemplate()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }
