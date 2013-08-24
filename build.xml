@@ -10,7 +10,7 @@
 	</target>
 
 	<path id="master-classpath">
-	    <fileset dir="/home/thefourtheye/workspace/thefourtheyeEditor/lib/">
+	    <fileset dir="lib">
 	    	<include name="*.jar"/>
 		</fileset>
 	</path>

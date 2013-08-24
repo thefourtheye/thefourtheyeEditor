@@ -1,12 +1,11 @@
 bin
 build
-lib
 .classpath
 .project
 .settings
 *.class
 
 # Package Files #
-*.jar
+thefourtheyeEditor.jar
 *.war
 *.ear
