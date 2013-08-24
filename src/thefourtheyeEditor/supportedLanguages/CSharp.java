@@ -28,10 +28,8 @@ public class CSharp extends Common
         return testSuite;
     }
 
-   @Override
-   public ArrayList<String> getSolutionTemplate()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
+    public String getFileExtension()
+    {
+       return ".cs";
+    }
 }

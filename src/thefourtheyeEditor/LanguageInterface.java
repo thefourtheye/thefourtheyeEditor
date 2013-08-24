@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 public interface LanguageInterface
 {
-    String getClassName();
+   String getClassName();
 
-    String getMethodSignature();
-    
-    String getReturnTypeDescriptor();
+   String getMethodSignature();
 
-    ArrayList<String> getTestSuite();
-    
-    ArrayList<String> getSolutionTemplate();
+   String getReturnTypeDescriptor();
+
+   ArrayList<String> getTestSuite();
+
+   ArrayList<String> getSolutionTemplate();
+   
+   String getFileExtension();
 }

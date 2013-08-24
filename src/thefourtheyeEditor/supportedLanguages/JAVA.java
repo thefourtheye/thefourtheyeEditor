@@ -8,81 +8,56 @@ import com.topcoder.shared.problem.DataType;
 import com.topcoder.shared.problem.TestCase;
 
 public class JAVA extends Common
-{ 
-    public JAVA(Language lang, ProblemComponentModel component)
-    {
-       super(lang, component);
-       baseIndentation = indentation + indentation;
-    }
-    
-    @Override
-    public ArrayList<String> getTestSuite()
-    {
-       DataType[] paramTypes = getParamTypes();
-       TestCase[] testCases = getTestCases();
-       String invokeLine = "";
-       for (int i = 0; i < testCases.length; i++)
-       {
-          String[] inputParams = testCases[i].getInput();
-          if (invokeLine == "")
-          {
-             invokeLine = "new " + getClassName() + "()." + getMethodName() + "(";
-             for (int j = 0; j < inputParams.length; j++)
-             {
-                invokeLine += "args" + String.valueOf(j)
-                      + (j != inputParams.length - 1 ? "," : ")");
-             }
-          }
-          testSuite.add(baseIndentation + "{");
-          for (int j = 0; j < inputParams.length; j++)
-          {
-             String inputParamDefn = baseIndentation + indentation
-                   + paramTypes[j].getDescriptor(currentLanguage) + " args"
-                   + String.valueOf(j) + " = " + inputParams[j] + ";";
-             testSuite.add(inputParamDefn);
-          }
-
-          String outputParamDefn = baseIndentation + indentation
-                + getReturnTypeDescriptor() + " expected = " + 
-                testCases[i].getOutput() + ";";
-          testSuite.add(outputParamDefn);
-
-          testSuite.add(baseIndentation + indentation + "eq("
-                + String.valueOf(i) + ", " + invokeLine + ", expected, true);\n"
-                + baseIndentation + "}");
-       }
-       return testSuite;
-    }
+{
+   public JAVA(Language lang, ProblemComponentModel component)
+   {
+      super(lang, component);
+      baseIndentation = indentation + indentation;
+   }
 
    @Override
-   public ArrayList<String> getSolutionTemplate()
+   public ArrayList<String> getTestSuite()
    {
-      ArrayList<String> solutionTemplate = new ArrayList<String>();
-      String currentLine = "";
-      for (int i = 0; i < sourceTemplate.size(); i++)
+      DataType[] paramTypes = getParamTypes();
+      TestCase[] testCases = getTestCases();
+      String invokeLine = "";
+      for (int i = 0; i < testCases.length; i++)
       {
-         currentLine = sourceTemplate.get(i);
-         if (currentLine.contains("$CLASSNAME$"))
+         String[] inputParams = testCases[i].getInput();
+         if (invokeLine == "")
          {
-            solutionTemplate.add(currentLine.replace("$CLASSNAME$", getClassName()));
+            invokeLine = "new " + getClassName()+"()."+getMethodName()+ "(";
+            for (int j = 0; j < inputParams.length; j++)
+            {
+               invokeLine += "args" + String.valueOf(j)
+                     + (j != inputParams.length - 1 ? "," : ")");
+            }
          }
-         else if (currentLine.contains("$METHODSIGNATURE$"))
+         testSuite.add(baseIndentation + "{");
+         for (int j = 0; j < inputParams.length; j++)
          {
-            solutionTemplate.add(currentLine.replace("$METHODSIGNATURE$", getMethodSignature()));
+            String inputParamDefn = baseIndentation + indentation
+                  + paramTypes[j].getDescriptor(currentLanguage) + " args"
+                  + String.valueOf(j) + " = " + inputParams[j] + ";";
+            testSuite.add(inputParamDefn);
          }
-         else if (currentLine.contains("$RC$"))
-         {
-            solutionTemplate.add(currentLine.replace("$RC$", getReturnTypeDescriptor()));
-         }
-         else if (currentLine.contains("$TESTCASES$"))
-         {
-            solutionTemplate.addAll(getTestSuite());
-         }
-         else
-         {
-            solutionTemplate.add(currentLine);
-         }
+
+         String outputParamDefn = baseIndentation + indentation
+               + getReturnTypeDescriptor() + " testCaseResult = "
+               + testCases[i].getOutput() + ";";
+         testSuite.add(outputParamDefn);
+         String scalarIden = getReturnType().getDimension() == 0?", true":"";
+         testSuite.add(baseIndentation + indentation + "TestableDataModel expected" +
+               " = new TestableDataModel(testCaseResult" + scalarIden + ");");
+
+         testSuite.add(baseIndentation + indentation + "expected.eq("
+               + String.valueOf(i) + ", new TestableDataModel(" + invokeLine + 
+               scalarIden + ")" + scalarIden + ");\n" + baseIndentation + "}");
       }
-      return solutionTemplate;
+      return testSuite;
+   }
+   public String getFileExtension()
+   {
+      return ".java";
    }
 }

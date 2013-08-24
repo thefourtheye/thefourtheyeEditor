@@ -1,8 +1,10 @@
 package thefourtheyeEditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
@@ -25,7 +27,7 @@ public class Main
    private JPanel minimalPanel;
    private JTextArea minimalEditor;
    private String baseLocation = "/home/thefourtheye/TestBed/";
-
+   private File solutionFileObject = null; 
    public Main()
    {
       minimalEditor = new JTextArea();
@@ -59,51 +61,65 @@ public class Main
       }
    }
 
-   public void setProblemComponent (ProblemComponentModel component, Language language, Renderer renderer)throws Exception
+   public void setProblemComponent (ProblemComponentModel component, 
+         Language language, Renderer renderer)throws Exception
    {
-      updateStatus("");
       String contestName = component.getProblem().getRound().getContestName();
       String problemName = component.getProblem().getName();
       File contestDirFileObject = new File(baseLocation, contestName);
 
       if (contestDirFileObject.exists() == false)
       {
-         if (contestDirFileObject.mkdirs() == true)
+         if (contestDirFileObject.mkdirs() == false)
          {
-            updateStatus("Created directory : " + contestDirFileObject.getAbsolutePath());
-         }
-         else
-         {
-            updateStatus("Directory creation failed : " + contestDirFileObject.getAbsolutePath(), true);
+            updateStatus("Directory creation failed : " + 
+                  contestDirFileObject.getAbsolutePath(), true);
             return;
          }
       }
       else if (contestDirFileObject.isDirectory() == false)
       {
-         updateStatus("Directory creation failed : " + contestDirFileObject.getAbsolutePath() + ". There is a " + "file with the same name exists", true);
+         updateStatus("Directory creation failed : " + 
+               contestDirFileObject.getAbsolutePath() + ". There is a " + 
+               "file with the same name exists", true);
          return;
       }
       else
       {
-         updateStatus("Directory exists : " + contestDirFileObject.getAbsolutePath() + (!contestDirFileObject.canWrite() ? ", but NOT WRITABLE" : ""));
+         if (contestDirFileObject.canWrite() == false)
+         {
+            updateStatus("Directory exists : " + 
+                  contestDirFileObject.getAbsolutePath() + ", but NOT WRITABLE");
+         }
       }
 
-      File problemFileObject = new File (contestDirFileObject, problemName + ".html");
-      BufferedWriter writeFile = new BufferedWriter(new FileWriter(problemFileObject));
+      File problemFileObject = 
+            new File (contestDirFileObject, problemName + ".html");
+      BufferedWriter writeFile = 
+            new BufferedWriter(new FileWriter(problemFileObject));
       writeFile.write(renderer.toHTML(language));
       writeFile.close();
-      updateStatus("Wrote problem statement to : " + problemFileObject.getAbsolutePath());
+      updateStatus("Wrote problem statement to : " + 
+            problemFileObject.getAbsolutePath());
 
       LanguageInterface currentLanguage = getLanguage(language, component);
-
+      
+      solutionFileObject = new File (contestDirFileObject, 
+            currentLanguage.getClassName() + currentLanguage.getFileExtension());
+      BufferedWriter solutionWriter = 
+            new BufferedWriter(new FileWriter(solutionFileObject));
       ArrayList<String> testSuit = currentLanguage.getSolutionTemplate();
       for (String str : testSuit)
       {
-         updateStatus(str);
+         solutionWriter.write(str + "\n");
       }
+      solutionWriter.close();
+      updateStatus("Wrote solution template to " + 
+            solutionFileObject.getAbsolutePath());
    }
 
-   private LanguageInterface getLanguage(Language language, ProblemComponentModel component)
+   private LanguageInterface getLanguage(Language language, 
+         ProblemComponentModel component)
    {
       switch(language.getName())
       {
@@ -116,12 +132,30 @@ public class Main
       }
    }
 
-   public String getSource()
+   public String getSource() throws Exception
    {
-      return minimalEditor.getText();
+      BufferedReader solutionReader = 
+            new BufferedReader(new FileReader(solutionFileObject));
+      String readLine = "", solution = "";
+      boolean insideCutSection = false;
+      while ((readLine = solutionReader.readLine()) != null)
+      {
+         if (readLine.contains("//BEGINCUT") || readLine.contains("#BEGINCUT"))
+         {
+            insideCutSection = true;
+         }
+         if (insideCutSection == false)
+         {
+            solution += readLine + "\n";
+         }
+         if (readLine.contains("//ENDCUT") || readLine.contains("#ENDCUT"))
+         {
+            insideCutSection = false;
+         }
+      }
+      solutionReader.close();
+      return solution;
    }
 
-   public void setSource(String source)
-   {
-   }
+   public void setSource(String source){}
 }

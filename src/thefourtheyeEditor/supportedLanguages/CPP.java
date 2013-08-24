@@ -9,7 +9,7 @@ import com.topcoder.shared.problem.TestCase;
 
 /**
  * @author thefourtheye
- *
+ * 
  */
 public class CPP extends Common
 {
@@ -80,43 +80,14 @@ public class CPP extends Common
          }
          testSuite.add(outputParamDefn + ";");
 
-         testSuite.add(indentation + indentation + "eq("
-               + String.valueOf(i) + ", " + invokeLine + ", expected);\n"
-               + indentation + "}");
+         testSuite.add(indentation + indentation + "eq(" + String.valueOf(i)
+               + ", " + invokeLine + ", expected);\n" + indentation + "}");
       }
       return testSuite;
    }
-
-   @Override
-   public ArrayList<String> getSolutionTemplate()
+   
+   public String getFileExtension()
    {
-      ArrayList<String> solutionTemplate = new ArrayList<String>();
-      String currentLine = "";
-      for (int i = 0; i < sourceTemplate.size(); i++)
-      {
-         currentLine = sourceTemplate.get(i);
-         if (currentLine.contains("$CLASSNAME$"))
-         {
-            solutionTemplate.add(currentLine.replace("$CLASSNAME$", getClassName()));
-         }
-         else if (currentLine.contains("$METHODSIGNATURE$"))
-         {
-            solutionTemplate.add(currentLine.replace("$METHODSIGNATURE$", getMethodSignature()));
-         }
-         else if (currentLine.contains("$RC$"))
-         {
-            solutionTemplate.add(currentLine.replace("$RC$", getReturnTypeDescriptor()));
-         }
-         else if (currentLine.contains("$TESTCASES$"))
-         {
-            solutionTemplate.addAll(getTestSuite());
-         }
-         else
-         {
-            solutionTemplate.add(currentLine);
-         }
-      }
-      return solutionTemplate;
+      return ".cpp";
    }
 }
-
