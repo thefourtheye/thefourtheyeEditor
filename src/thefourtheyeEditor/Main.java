@@ -140,7 +140,8 @@ public class Main
       boolean insideCutSection = false;
       while ((readLine = solutionReader.readLine()) != null)
       {
-         if (readLine.contains("//BEGINCUT") || readLine.contains("#BEGINCUT"))
+         if (readLine.contains("//BEGINCUT") || readLine.contains("#BEGINCUT")
+               || readLine.contains("'BEGINCUT"))
          {
             insideCutSection = true;
          }
@@ -148,7 +149,8 @@ public class Main
          {
             solution += readLine + "\n";
          }
-         if (readLine.contains("//ENDCUT") || readLine.contains("#ENDCUT"))
+         if (readLine.contains("//ENDCUT") || readLine.contains("#ENDCUT")
+               || readLine.contains("'ENDCUT"))
          {
             insideCutSection = false;
          }
