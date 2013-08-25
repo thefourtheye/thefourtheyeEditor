@@ -26,7 +26,7 @@ public class JAVA extends Common
          String[] inputParams = testCases[i].getInput();
          if (invokeLine == "")
          {
-            invokeLine = "new " + getClassName()+"()."+getMethodName()+ "(";
+            invokeLine = "new " + getClassName() + "()." + getMethodName()+ "(";
             for (int j = 0; j < inputParams.length; j++)
             {
                invokeLine += "args" + String.valueOf(j)
