@@ -9,7 +9,7 @@ import com.topcoder.shared.problem.TestCase;
 
 public class CSharp extends Common
 {
-    public CSharp(Language lang, ProblemComponentModel component)
+    public CSharp(Language lang, ProblemComponentModel component) throws Exception
     {
        super(lang, component);
        baseIndentation = "        ";

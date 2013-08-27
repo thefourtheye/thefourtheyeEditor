@@ -13,7 +13,7 @@ import com.topcoder.shared.problem.TestCase;
  */
 public class CPP extends Common
 {
-   public CPP(Language lang, ProblemComponentModel component)
+   public CPP(Language lang, ProblemComponentModel component) throws Exception
    {
       super(lang, component);
    }
@@ -52,8 +52,8 @@ public class CPP extends Common
                String tempArg = "tempArray" + String.valueOf(j);
 
                testSuite.add(indentation + indentation
-                     + paramTypes[j].getBaseName() + " " + tempArg + "[] = "
-                     + inputParams[j] + ";");
+                     + paramTypes[j].getBaseName().toLowerCase() + " "
+                     + tempArg + "[] = " + inputParams[j] + ";");
 
                inputParamDefn += "(" + tempArg + ", " + tempArg + " + ARRSIZE("
                      + tempArg + "))";

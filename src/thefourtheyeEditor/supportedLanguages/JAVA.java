@@ -9,7 +9,7 @@ import com.topcoder.shared.problem.TestCase;
 
 public class JAVA extends Common
 {
-   public JAVA(Language lang, ProblemComponentModel component)
+   public JAVA(Language lang, ProblemComponentModel component) throws Exception
    {
       super(lang, component);
       baseIndentation = indentation + indentation;

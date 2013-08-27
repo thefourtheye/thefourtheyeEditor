@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,10 +26,30 @@ import com.topcoder.shared.problem.Renderer;
 
 public class Main
 {
-   private JPanel minimalPanel;
-   private JTextArea minimalEditor;
-   private String baseLocation = "/home/thefourtheye/TestBed/";
-   private File solutionFileObject = null; 
+   private JPanel    minimalPanel;
+   private File      solutionFileObject = null;
+   private static JTextArea minimalEditor;
+   public  static Properties globalProperties = null;
+   public  static File configFile = new File(System.getProperty("user.home"),
+         "contestapplet.conf");
+   
+   public static String getConfigValue(String key) throws Exception
+   {
+      if (globalProperties == null)
+      {
+         globalProperties = new Properties();
+         globalProperties.load(new FileInputStream(configFile));
+      }
+      String Result = globalProperties.getProperty("thefourtheyeEditor." + key);
+      if (Result == null)
+      {
+         updateStatus("Configuration Entry : thefourtheyeEditor." + key 
+               + " is not found in " + configFile.getAbsolutePath(), true);
+         return "";
+      }
+      return Result;
+   }
+
    public Main()
    {
       minimalEditor = new JTextArea();
@@ -44,12 +66,12 @@ public class Main
       return minimalPanel;
    }
 
-   private void updateStatus(String statusMessage, boolean isError)
+   private static void updateStatus(String statusMessage, boolean isError)
    {
       updateStatus ((isError?"[ERROR] ":"") + statusMessage);
    }
 
-   private void updateStatus(String statusMessage)
+   private static void updateStatus(String statusMessage)
    {
       if (statusMessage == "")
       {
@@ -66,7 +88,8 @@ public class Main
    {
       String contestName = component.getProblem().getRound().getContestName();
       String problemName = component.getProblem().getName();
-      File contestDirFileObject = new File(baseLocation, contestName);
+      File contestDirFileObject = new 
+            File(getConfigValue("SolutionsDirectory"), contestName);
 
       if (contestDirFileObject.exists() == false)
       {
@@ -102,24 +125,42 @@ public class Main
       updateStatus("Wrote problem statement to : " + 
             problemFileObject.getAbsolutePath());
 
-      LanguageInterface currentLanguage = getLanguage(language, component);
-      
-      solutionFileObject = new File (contestDirFileObject, 
-            currentLanguage.getClassName() + currentLanguage.getFileExtension());
-      BufferedWriter solutionWriter = 
-            new BufferedWriter(new FileWriter(solutionFileObject));
-      ArrayList<String> testSuit = currentLanguage.getSolutionTemplate();
-      for (String str : testSuit)
+      try
       {
-         solutionWriter.write(str + "\n");
+         LanguageInterface currentLanguage = getLanguage(language, component);
+      
+         solutionFileObject = new File (contestDirFileObject, 
+           currentLanguage.getClassName() + currentLanguage.getFileExtension());
+   
+         if (getConfigValue("replaceSolutionIfAlreadyExists").equals("yes") ||
+               solutionFileObject.exists() == false)
+         {
+            BufferedWriter solutionWriter = 
+                  new BufferedWriter(new FileWriter(solutionFileObject));
+            ArrayList<String> testSuit = currentLanguage.getSolutionTemplate();
+            for (String str : testSuit)
+            {
+               solutionWriter.write(str + "\n");
+            }
+            solutionWriter.close();
+            updateStatus("Wrote solution template to " + 
+                  solutionFileObject.getAbsolutePath());
+         }
+         else
+         {
+            updateStatus("NOT overwriting solution : " + 
+                  solutionFileObject.getAbsolutePath());
+         }
       }
-      solutionWriter.close();
-      updateStatus("Wrote solution template to " + 
-            solutionFileObject.getAbsolutePath());
+      catch (Exception ex)
+      {
+         updateStatus(ex.getMessage(), true);
+      }
+
    }
 
    private LanguageInterface getLanguage(Language language, 
-         ProblemComponentModel component)
+         ProblemComponentModel component) throws Exception
    {
       switch(language.getName())
       {

@@ -2,12 +2,11 @@ package thefourtheyeEditor.supportedLanguages;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import thefourtheyeEditor.LanguageInterface;
+import thefourtheyeEditor.Main;
 
 import com.topcoder.client.contestant.ProblemComponentModel;
 import com.topcoder.shared.language.Language;
@@ -22,33 +21,26 @@ public abstract class Common implements LanguageInterface
    String                indentation      = null;
    ArrayList<String>     testSuite        = new ArrayList<String>();
    ArrayList<String>     sourceTemplate   = new ArrayList<String>();
-   Properties            properties       = new Properties();
 
-   Common(Language language, ProblemComponentModel component)
+   Common(Language language, ProblemComponentModel component) throws Exception
    {
-      indentation = "    ";
-      currentLanguage = language;
+      indentation      = "    ";
+      currentLanguage  = language;
       problemComponent = component;
-      try
+
+      String fileName = Main.getConfigValue("Templates." + language.getName());
+      if (fileName == "")
       {
-         properties.load(new FileInputStream(new File(System
-               .getProperty("user.home"), "contestapplet.conf")));
-         String fileName = properties
-               .getProperty("thefourtheyeEditor.Templates."
-                     + language.getName());
-         BufferedReader reader = new BufferedReader(new FileReader(new File(
-               fileName)));
-         String currentLine = "";
-         while ((currentLine = reader.readLine()) != null)
-         {
-            sourceTemplate.add(currentLine);
-         }
-         reader.close();
+         throw new Exception("Unable to get the template file from the config.");
       }
-      catch (Exception e)
+      BufferedReader reader = 
+            new BufferedReader(new FileReader(new File(fileName)));
+      String currentLine = "";
+      while ((currentLine = reader.readLine()) != null)
       {
-         e.printStackTrace();
+         sourceTemplate.add(currentLine);
       }
+      reader.close();
    }
 
    public String getMethodSignature()

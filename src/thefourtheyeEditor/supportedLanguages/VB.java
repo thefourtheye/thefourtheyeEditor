@@ -9,7 +9,7 @@ import com.topcoder.shared.problem.TestCase;
 
 public class VB extends Common
 {
-    public VB(Language lang, ProblemComponentModel component)
+    public VB(Language lang, ProblemComponentModel component) throws Exception
     {
        super(lang, component);
        indentation = "        ";

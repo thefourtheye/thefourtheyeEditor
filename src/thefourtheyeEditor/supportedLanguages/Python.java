@@ -9,7 +9,7 @@ import com.topcoder.shared.problem.TestCase;
 
 public class Python extends Common
 {
-    public Python(Language lang, ProblemComponentModel component)
+    public Python(Language lang, ProblemComponentModel component) throws Exception
     {
        super(lang, component);
     }
