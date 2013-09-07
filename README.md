@@ -9,7 +9,8 @@ This is a very lightweight plugin for Topcoder Arena to participate in Single Ro
 Installation
 ------------
 
-Installation is very simple and straight forward. The steps are explained here http://www.thefourtheye.in/2013/09/installing-thefourtheyeeditor.html
+Installation is very simple and straight forward. The steps are explained here 
+<a href="http://www.thefourtheye.in/2013/09/installing-thefourtheyeeditor.html" target="_blank">http://www.thefourtheye.in/2013/09/installing-thefourtheyeeditor.html</a>
 
 Configuration
 -------------
