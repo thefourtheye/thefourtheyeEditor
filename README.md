@@ -3,14 +3,31 @@ thefourtheyeEditor [![Build Status](https://secure.travis-ci.org/thefourtheye/th
 
 This is a very lightweight plugin for Topcoder Arena to participate in Single Round Matches, which can build testcases and lets the users to store the solutions as local files, so that any editor or IDE can be used to edit them. It also maintains the solutions in the directories named as the SRM's display name.
 
- 1. [Installation](#installation)
- 2. [Configuration](#configuration)
+ 1. [Features](#features)
+ 2. [Installation](#installation)
+ 3. [Configuration](#configuration)
+
+Features
+--------
+<ol>
+ <li>Very lightweight - Only one jar file. It doesn't depend on any other external jar files.</li>
+ <li>Organized solutions storage - Solutions will be stored as per the SRM names</li>
+ <li>File based configuration - Configurations are done in contestapplet.conf file. No need to use UI.</li>
+</ol>
 
 Installation
 ------------
 
-Installation is very simple and straight forward. The steps are explained here 
-<a href="http://www.thefourtheye.in/2013/09/installing-thefourtheyeeditor.html" target="_blank">http://www.thefourtheye.in/2013/09/installing-thefourtheyeeditor.html</a>
+Installation is very simple and straight forward.<br/><br/>
+For the beginners,<br/>
+&nbsp;&nbsp;&nbsp;the steps are explained here 
+<a href="http://www.thefourtheye.in/2013/09/installing-thefourtheyeeditor.html" target="_blank">http://www.thefourtheye.in/2013/09/installing-thefourtheyeeditor.html</a><br/><br/>
+For the initiated,<br/>
+&nbsp;&nbsp;&nbsp;it is as simple as this<br/>
+<a href="http://1.bp.blogspot.com/-fYASUa_iIWo/Uiravmk9dJI/AAAAAAAABag/RhTfUoZX-1w/s1600/topcoder+plugin+Information.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" src="http://1.bp.blogspot.com/-fYASUa_iIWo/Uiravmk9dJI/AAAAAAAABag/RhTfUoZX-1w/s1600/topcoder+plugin+Information.png" /></a><br/>
+You can get the jar file here https://github.com/thefourtheye/thefourtheyeEditor/releases/download/latest/thefourtheyeEditor.jar
+
 
 Configuration
 -------------
