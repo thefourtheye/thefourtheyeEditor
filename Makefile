@@ -1,19 +1,19 @@
 VERSION = 0.0.1
 MESSAGE = v${VERSION} (Beta)
 
+default: build
+
 clean:
 	rm -rf bin
 	rm -rf build
 
-make: clean
+build: clean
 	ant
 
-latest: make
+latest: default
 	git tag -f latest
 	git push --tags
 
-release: make
+release: default
 	git tag -f "v${VERSION}" -m "${MESSAGE}"
 	git push --tags
-
-all: latest

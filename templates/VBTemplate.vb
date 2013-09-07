@@ -61,7 +61,7 @@ Module MainModule
                 Return
             Else
                 For Index = 0 To expectedArray.GetUpperBound(0)
-                    If expectedArray.GetValue(Index).Equals(returnedArray.GetValue(Index)) = False Then
+                    If Eq(expectedArray.GetValue(Index), returnedArray.GetValue(Index)) = False Then
                         Console.WriteLine("Case " + CStr(caseNo) + _
                             " failed: Expected and Returned Arrays differ in position " + CStr(Index))
                         Console.Write("Returned : ")
@@ -74,7 +74,7 @@ Module MainModule
                 Next
             End If
         Else
-            If expected.Equals(returned) = False Then
+            If Eq(expected, returned) = False Then
                 Console.WriteLine("Case " + CStr(caseNo) + " failed.")
                 Console.Write("Returned : ")
                 Print(returned)
