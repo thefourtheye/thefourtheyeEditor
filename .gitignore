@@ -6,6 +6,7 @@ build
 *.class
 
 # Package Files #
-thefourtheyeEditor.jar
+!thefourtheyeEditor.jar
 *.war
 *.ear
+*.exe
