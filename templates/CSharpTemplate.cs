@@ -45,6 +45,21 @@ public class $CLASSNAME$
         }
     }
 
+    public static bool eq(Object expected, Object returned)
+    {
+        if (expected.GetType() == typeof(double))
+        {
+            double have = Convert.ToDouble(returned), need = Convert.ToDouble(expected);
+            return ((have - need > 0 ? have - need : -have + need) < 1E-9 ||
+                (have > (1 - 1E-9 * (need > 0 ? 1 : -1)) * need &&
+                have < (1 + 1E-9 * (need > 0 ? 1 : -1)) * need));
+        }
+        else
+        {
+            return expected == returned;
+        }
+    }
+
     public static void eq(int caseNo, Object expected, Object returned)
     {
         if (expected.GetType().IsArray && returned.GetType().IsArray)
@@ -64,7 +79,7 @@ public class $CLASSNAME$
             {
                 for(int i = 0; i < expectedArray.Length; i++)
                 {
-                    if (expectedArray.GetValue(i).Equals(returnedArray.GetValue(i)) == false)
+                    if (eq(expectedArray.GetValue(i), returnedArray.GetValue(i)) == false)
                     {
                         Console.WriteLine("Case " + caseNo + 
                             " failed: Expected and Returned Arrays differ in position " + i);

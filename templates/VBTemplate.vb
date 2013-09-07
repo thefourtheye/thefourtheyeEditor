@@ -32,6 +32,20 @@ Module MainModule
         End If
 	End Sub
 
+    Function Eq (ByVal expected As Object, ByVal returned As Object) As Boolean
+        If TypeOf expected Is Double And TypeOf returned Is Double Then
+            ' Source : http://msdn.microsoft.com/en-us/library/ae382yt8(VS.80).aspx
+            Dim have, need as Double
+            have = Convert.ToDouble(returned)
+            need = Convert.ToDouble(expected)
+            Dim closeEnough As Double = 0.0000000001
+            Dim absoluteDifference As Double = Math.Abs(returned - expected)
+            Return (absoluteDifference < closeEnough)
+        Else
+            Return expected.Equals(returned)
+        End If
+    End Function
+
     Sub Eq (ByVal caseNo As Integer, ByVal expected As Object, ByVal returned As Object)
         If TypeOf expected Is Array And TypeOf returned Is Array Then
             Dim expectedArray As Array = CType(expected, Array), Index As Integer
