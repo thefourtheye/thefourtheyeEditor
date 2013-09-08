@@ -87,9 +87,13 @@ public class Main
          Language language, Renderer renderer)throws Exception
    {
       String contestName = component.getProblem().getRound().getContestName();
+      boolean isPracticeRound = component.getProblem().getRound().getRoundType()
+            .isPracticeRound();
+      String contestType = isPracticeRound ? "Practice" : "Match";
       String problemName = component.getProblem().getName();
-      File contestDirFileObject = new 
-            File(getConfigValue("SolutionsDirectory"), contestName);
+      File contestDirFileObject = new File(new 
+            File(getConfigValue("SolutionsDirectory"), contestType),
+            contestName);
 
       if (contestDirFileObject.exists() == false)
       {
