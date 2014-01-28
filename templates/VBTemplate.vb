@@ -92,3 +92,5 @@ Module MainModule
 
 End Module
 'ENDCUT
+
+' Powered by thefourtheyeEditor

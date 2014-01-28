@@ -139,3 +139,5 @@ int main( int argc, char* argv[] )
     $TESTCASES$
 }
 //ENDCUT
+
+// Powered by thefourtheyeEditor

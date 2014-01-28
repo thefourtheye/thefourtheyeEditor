@@ -150,3 +150,5 @@ public class $CLASSNAME$
     }
 //ENDCUT
 }
+
+// Powered by thefourtheyeEditor
